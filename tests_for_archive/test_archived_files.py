@@ -8,6 +8,7 @@ from openpyxl import load_workbook
 
 # archived files
 def test_archived_files():
+    os.mkdir('../resources')
     with zipfile.ZipFile('../resources/archived.zip', mode='w') as zip_file:
         for file in pathlib.Path('../files/').iterdir():
             zip_file.write(file, arcname=file.name)
@@ -63,3 +64,4 @@ def test_read_xlsx():
 def test_file_deleted():
     os.remove('../resources/archived.zip')
     assert len(os.listdir('../resources/')) == 0
+    os.rmdir('../resources')
