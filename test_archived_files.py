@@ -8,21 +8,16 @@ from openpyxl import load_workbook
 
 # archived files
 def test_archived_files():
-    os.mkdir('../resources')
-    with zipfile.ZipFile('../resources/archived.zip', mode='w') as zip_file:
-        for file in pathlib.Path('../files/').iterdir():
+    os.mkdir('resources')
+    with zipfile.ZipFile('resources/archived.zip', mode='w') as zip_file:
+        for file in pathlib.Path('files/').iterdir():
             zip_file.write(file, arcname=file.name)
-    assert len(os.listdir('../resources/')) == 1
-
-
-# file size comparison
-def test_archive_size():
-    assert os.path.getsize('../resources/archived.zip') == 94949
+    assert len(os.listdir('resources/')) == 1
 
 
 # read csv file
 def test_read_csv():
-    with zipfile.ZipFile(os.path.join('../resources/archived.zip')) as c_f:
+    with zipfile.ZipFile(os.path.join('resources/archived.zip')) as c_f:
         csv_archived = c_f.extract('csv_file.csv')
         with open(csv_archived) as csv_file:
             csv_rows = csv.reader(csv_file)
@@ -40,7 +35,7 @@ def test_read_csv():
 
 # read pdf file
 def test_read_pdf():
-    with zipfile.ZipFile(os.path.join('../resources/archived.zip')) as p_f:
+    with zipfile.ZipFile(os.path.join('resources/archived.zip')) as p_f:
         pdf_archived = p_f.extract('pdf_file.pdf')
         reader = PdfReader(pdf_archived)
         assert len(reader.pages) == 1
@@ -52,7 +47,7 @@ def test_read_pdf():
 
 # read xlsx file
 def test_read_xlsx():
-    with zipfile.ZipFile(os.path.join('../resources/archived.zip')) as x_f:
+    with zipfile.ZipFile(os.path.join('resources/archived.zip')) as x_f:
         xlsx_archived = x_f.extract('xlsx_file.xlsx')
         workbook = load_workbook(xlsx_archived)
         sheet = workbook.active
@@ -62,6 +57,6 @@ def test_read_xlsx():
 
 # delete files
 def test_file_deleted():
-    os.remove('../resources/archived.zip')
-    assert len(os.listdir('../resources/')) == 0
-    os.rmdir('../resources')
+    os.remove('resources/archived.zip')
+    assert len(os.listdir('resources/')) == 0
+    os.rmdir('resources')
